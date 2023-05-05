@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = 'app/build/zephyr/zephyr.bin'
+elf = 'app/build/zephyr/zephyr.elf'
