@@ -40,4 +40,4 @@ jobs:
           token: ${{ secrets.WOKWI_CLI_TOKEN }}
           timeout: 1000
           expect_text: 'Hello World!'
-          path: /wokwi-cli-github-actions-example
+          path: wokwi-cli-github-actions-example
