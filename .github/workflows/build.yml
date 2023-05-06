@@ -41,3 +41,4 @@ jobs:
           timeout: 1000
           expect_text: 'Hello, world!'
           fail_text: 'Error'
+          path: wokwi-cli-github-actions-example
