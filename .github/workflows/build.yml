@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    container: ghcr.io/zephyrproject-rtos/ci:v0.26.2 
+    env:
+      CMAKE_PREFIX_PATH: /opt/toolchains
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: wokwi-cli-github-actions-example
+
+      - name: Initialize
+        working-directory: wokwi-cli-github-actions-example
+        run: |
+          west init -l .
+          west update
+          west zephyr-export
+      - name: Build firmware
+        working-directory: wokwi-cli-github-actions-example/app
+        run: |
+          west build -b esp32c3_devkitm .
+      - name: Install the Wokwi CLI
+        run: |
+          wget -O /usr/local/bin/wokwi-cli https://github.com/wokwi/wokwi-cli/releases/latest/download/wokwi-cli-linuxstatic-x64
+          chmod +x /usr/local/bin/wokwi-cli
+  
+      - name: Test firmware in Wokwi Simulator
+        working-directory: wokwi-cli-github-actions-example
+        run: |
+          wokwi-cli --expect-text "Hello World!" --timeout 1000
+        env:
+          WOKWI_CLI_TOKEN: ${{ secrets.WOKWI_CLI_TOKEN }}
