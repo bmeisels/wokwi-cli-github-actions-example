@@ -9,5 +9,6 @@ This repository contains a Zephyr "Hello World" example to demonstrate use of Wo
     git clone https://github.com/bmeisels/wokwi-cli-github-actions-example.git
     west init -l wokwi-cli-github-actions-example
     west update
+    west zephyr-export
     cd wokwi-cli-github-actions-example/app
     west build -b esp32c3_devkitm .
